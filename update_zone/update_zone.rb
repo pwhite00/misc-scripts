@@ -88,6 +88,15 @@ end
 
 # check that file updated and wasn't destroyed
 # maybe test with diff in some sort.
+
 # then add the rndc reload stuff
+puts "reloading zone [#{@zone_file}]."
+`rndc reload`
+  unless $?.to_i == 0
+    puts "Zone failed to reload."
+    exit 3
+  else
+    puts "Zone was reloaded sucessfully."
+  end
 puts
 
