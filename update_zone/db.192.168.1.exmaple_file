@@ -1,0 +1,15 @@
+;$ORIGIN .
+$TTL 10800	; 3 hours
+1.168.192.in-addr.arpa.	IN SOA	server.domain.local. somename.domain.local. (
+				2015031102 ; serial
+				3600       ; refresh (1 hour)
+				3600       ; retry (1 hour)
+				604800     ; expire (1 week)
+				3600       ; minimum (1 hour)
+				)
+;			NS	nameserver1.domain.local.
+			NS	nameserver2.domain.local.
+
+$ORIGIN 1.168.192.in-addr.arpa.
+1  IN PTR  node1.domain.local.
+2  IN PTR  node2.domain.local.

@@ -36,7 +36,7 @@ def pull_repo(repo_type, repo)
   # go ahead and grab it all
   case repo_type
   when :svn
-    puts "-- Grabbing #{repo} via subversion. --"
+    puts "-- Grabbing: #{repo} via subversion. --"
     svn_pull = `svn up #{repo}`
     if @options[:verbose]
       puts svn_pull
@@ -44,13 +44,15 @@ def pull_repo(repo_type, repo)
       svn_pull
     end
   when :git
-    puts "-- Grabbing #{repo} via git. --"
+    puts "-- Grabbing: #{repo} via git. --"
     git_pull = `cd #{repo} && git pull && cd ../`
     if @options[:verbose]
       puts git_pull
     else
       git_pull
     end
+  when :norepo
+    puts "-- Ignoring: #{repo} is not a version controlled repo. --"
   end
 end
 
@@ -58,9 +60,11 @@ def repo_fingerprint(repo)
   # figure out if a repo is svn or git
   if Dir.exists?("#{repo}/.svn")
     @repo_type = :svn
-  else
+  elsif
     Dir.exists?("#{repo}/.git")
     @repo_type = :git
+  else
+    @repo_type = :norepo
   end
     pull_repo(@repo_type, repo)
 end
