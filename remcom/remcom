@@ -1,0 +1,161 @@
+#!/usr/bin/env ruby
+#
+# -remcom
+#  -- a ruby wrapper for executing remote command and scping files around.
+#
+#
+#
+###############################################################################
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+  require 'highline/import'
+else
+  require 'io/console'
+end
+require 'net/ssh'
+require 'net/scp'
+require 'optparse'
+require 'etc'
+
+@options = {}
+@options[:me] = Etc.getpwuid(Process.euid).name.to_s
+@version = '1.0'
+@valid_modes = [ 'cmd' , 'push', 'pull' ]
+
+parser = OptionParser.new do |opts|
+  opts.banner = "remcom version: #{@version}\n  Usage: #{$0} [args] [source] [target]"
+  opts.separator ''
+  opts.on('-h', '--help', 'display help info.') do 
+    puts opts
+    exit
+  end
+  opts.on('-m', '--mode MODE', "Select a Mode to run in #{@valid_modes}") do |x|
+    @options[:mode] = x
+  end
+  opts.on('-s', '--source-file SOURCE', 'Source File can be remote or local') do |x|
+    @options[:source] = x
+  end
+  opts.on('-t', '--target-file TARGET', 'Target File can be remote or local') do |x|
+    @options[:target] = x
+  end
+  opts.on('-n', '--node NODE', 'Remote Node ip or hostname') do |x|
+    @options[:node] = x
+  end
+  opts.on('-u', '--username USERNAME', 'Define a user to exec as on the remote host') do |x|
+    @options[:user] = x
+  end
+  opts.on('-p', '--password PASSWORD', 'Define a password for the username. Use nopass for an empty password.') do |x|
+    @options[:pass] = x
+  end
+  opts.on('-c', '--command COMMAND', 'Define a command to use') do |x|
+    @options[:cmd] = x
+  end
+  opts.on('-v', '--verbose', 'Be verbose about it. Tell me more.') do
+    @options[:verbose] = true
+  end
+  opts.on('-d', '--diag-debug', 'remove me when testing is done.') do
+    @options[:debug] = true
+  end
+end
+parser.parse!
+
+def pre_flight()
+  # perform preflight checks
+
+  if @options[:debug]
+    exec_diag
+  end
+
+  # did i specify a node
+  unless @options.key?(:node)
+    puts "A remote system must be specified."
+    exit 1
+  end
+
+  # whoami ?
+  unless @options.key?(:user)
+    @options[:user] = @options[:me]
+  end
+
+  # do i have a password ?
+   unless @options.key?(:pass)
+     @options[:pass] = get_pass("Enter Password: ")
+   end
+
+  case @options[:mode]
+    when 'cmd'
+      exec_cmd(@options[:cmd])
+    when 'push'
+      exec_push
+    when 'pull'
+      exec_pull
+    else puts "#{@options[:mode]} is not a valid mode."
+      exit 1
+  end
+end
+
+def get_pass(prompt="Enter Password: ")
+  `read -s -p "#{prompt}" password; echo $password`.chomp
+end
+
+def exec_push()
+  # push stuff to somewhere else
+  puts "Sending #{@options[:source]} to #{@options[:user]}@#{@options[:node]}:#{@options[:target]}:"
+  Net::SCP.start(@options[:node], @options[:user]) do |scp|
+    if @options[:pass] == 'nopass'
+      if Dir.exists?(@options[:source])
+        scp.upload(@options[:source], @options[:target], :recursive => true)
+      else
+        scp.upload(@options[:source], @options[:target])
+      end
+    else
+      if Dir.exists?(@options[:source])
+        scp.upload(@options[:source], @options[:target], :password => @options[:pass],  :recursive => true)
+      else
+        scp.upload(@options[:source], @options[:target], :password => @options[:pass])
+      end
+    end
+  end
+end
+
+def exec_pull()
+  # pull stuff from somewhere else
+  puts "Pulling #{@options[:user]} @#{@options[:node]}:#{@options[:source]} to #{@options[:target]}"
+  Net::SCP.start(@options[:node], @options[:user]) do |scp|
+    if @options[:pass] == 'nopass'
+      scp.download(@options[:source], @options[:target], :recursive => true)
+    else
+      scp.download(@options[:source], @options[:target], :password => @options[:pass],  :recursive => true)
+    end
+  end
+end
+
+def exec_cmd(cmd)
+  # run commands remotely
+  if @options[:pass] == 'nopass'
+    Net::SSH.start( @options[:node].strip, @options[:user] ) do |ssh|
+      output = ssh.exec!(cmd)
+      outcode = $?
+      puts output
+    end
+  else
+    Net::SSH.start( @options[:node].strip, @options[:user], :password => @options[:pass] ) do |ssh|
+    output = ssh.exec!(cmd)
+    outcode = $?
+    puts output
+    end
+  end
+end
+
+def exec_diag()
+  puts "-- Variables:"
+  @options.each do |key, value|
+    puts "-------------------"
+    puts "#{key}:#{value}"
+    puts value.is_a? String
+    puts value.is_a? Integer
+    puts value.is_a? Array
+  end
+end
+
+pre_flight
