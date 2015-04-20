@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 # - ruby script to call ipinfo-io and geektool
 ###############################################################
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+end
 require 'curb'
 require 'yaml'
 

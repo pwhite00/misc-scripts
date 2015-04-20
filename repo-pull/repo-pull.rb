@@ -4,12 +4,11 @@
 #
 #
 #############################################
-if RUBY_VERSION == '1.8.7'
+if RUBY_VERSION.to_f < 1.9
   require 'rubygems'
 end
 require 'optparse'
-#require 'thor' ?
-#
+
 @version = '1.0'
 @options = {}
 parser = OptionParser.new do |opts|
