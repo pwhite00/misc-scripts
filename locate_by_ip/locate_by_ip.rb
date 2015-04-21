@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 # - ruby script to call ipinfo-io and geektool
 ###############################################################
-require 'curl'
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+end
+require 'curb'
 require 'yaml'
 
 date = Time.now

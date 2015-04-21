@@ -3,11 +3,14 @@
 # - update_zone.rb
 #
 ###############################################################################
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+end
+
 require 'fileutils'
 
 # file stuff
 @zone_file  = ARGV[0]
-#@zone_path = '/var/named/zones'  # Update this to your path to you zone files.
 @zone_path = '/Users/pwhite/repos/misc-scripts/update_zone'  # Update this to your path to you zone files.
 @version = "V1.0"
 
@@ -24,12 +27,6 @@ END
   puts usage_msg
   exit 0
 end
-
-#### this could be better
-# did you specify you ask for help or leave the zone_file blank ?
-#if @zonefile == '-h' or  @zonefile == '--help' or  @zonefile.nil?
-#  usage
-#end
 
 case @zone_file
   when '-h'
@@ -50,9 +47,7 @@ unless File.exists?(@my_file)
 end
 
 @my_file_dumped  = File.read(@my_file)
-#@starting_serial_dump = @my_file_dumped.split("\n").grep(/serial/)
 @starting_serial = @my_file_dumped.split("\n").grep(/serial/).to_s.scan(/[0-9]/).join
-#@starting_serial = @starting_serial_dump.scan(/[0-9]/).join
 @starting_date   = @starting_serial[0..7]
 @starting_count  = @starting_serial[8..12]
 date_dump        = Time.now.utc.to_s.split('-')[0..2]

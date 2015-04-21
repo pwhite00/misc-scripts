@@ -3,7 +3,7 @@
 # -remcom
 #  -- a ruby wrapper for executing remote command and scping files around.
 #
-#
+# -- can not handle sudo  and ssh -t yet.
 #
 ###############################################################################
 if RUBY_VERSION.to_f < 1.9
