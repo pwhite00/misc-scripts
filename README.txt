@@ -14,6 +14,9 @@ As the name implies it's a place for miscellaneous scripts
 ├── repo-pull
 │   ├── readme.txt
 │   └── repo-pull.rb
+├── time_by_zones
+│   ├── readme.txt
+│   └── time_by_zones.rb
 └── update_zone
     ├── db.192.168.1.exmaple_file
     ├── readme.txt
