@@ -60,7 +60,7 @@ end
     :sfo_dst    => true,
     :hnl_offset => -10,
     :hnl_dst    => false,
-    :sin_offest => 8,
+    :sin_offset => 8,
     :sin_dst    => false,
     :nrt_offset => 9,
     :nrt_dst    => false,
