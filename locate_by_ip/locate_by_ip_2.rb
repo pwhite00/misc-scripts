@@ -10,6 +10,9 @@
 #      adapt old url to new code ?
 #
 ################################################
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+end
 require 'net/http'
 require 'json'
 
