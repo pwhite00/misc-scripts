@@ -71,8 +71,10 @@ end
 unless @options[:mode] == :all
   repo_fingerprint(@options[:repo])
 else
-  repo_list = `ls -l | grep ^d|awk {'print $9'}`.split("\n")
+  repo_list = `ls`.split("\n")
   repo_list.each do |repo|
-    repo_fingerprint(repo)
+    if Dir.exists?(repo)
+      repo_fingerprint(repo)
+    end
   end
 end
