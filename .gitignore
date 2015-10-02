@@ -11,3 +11,4 @@
 *.rar
 .idea
 */wb/*
+*.test

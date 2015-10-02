@@ -11,7 +11,7 @@
 # How may times should it loop ?
 repeat = ARGV[0]
 if repeat.nil?
-  repeat = 2
+  repeat = 20
 else
   repeat = repeat.to_i
 end
@@ -20,7 +20,7 @@ end
 # Lower numbers will generate a higher number of errors.
 randomizer = ARGV[1]
 if randomizer.nil?
-  randomizer = 10
+  randomizer = 200
 else
   randomizer = randomizer.to_i
 end
@@ -41,8 +41,10 @@ def even_odd(letter)
   # Decide if a number is even or odd and change case based on it.
   number = rand(2)
     if number.even?
+     # puts "Upper"
       @letter = letter.upcase
     else
+     # puts "lower"
       @letter = letter
     end
 end
@@ -51,6 +53,7 @@ def random_char()
   # Find a random letter in the alphabet when triggered.
   alpha = 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
   new_char = alpha[rand(25)]
+  # puts new_char
   even_odd(new_char)
 end
 
@@ -71,21 +74,22 @@ end
 
 def speak_it(message, repeat, randomizer)
  # run the loop to print the stuff
-  trigger = randomizer / 2
-  chance  = rand(randomizer)
-  # for debugging
-  #puts trigger
-  #puts chance
 
   # clear the screen so we can start. comment out during debugging.
   system('clear')
   my_count = 0
   while my_count <= repeat
     message.each do |char|
+      trigger = randomizer / 2
+      chance  = rand(randomizer)
+      # for debugging
+      # puts trigger
+      # puts chance
       unless chance == trigger
         print char
         sleep(1.0/4.0)
       else
+        #puts "triggered"
         random_char
         print @letter
         sleep(1.0/4.0)
