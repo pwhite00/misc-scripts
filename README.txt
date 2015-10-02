@@ -8,12 +8,13 @@ As the name implies it's a place for miscellaneous scripts
 │   └── readme.txt
 ├── remcom
 │   ├── readme.txt
-│   ├── remcom
-│   └── wb
-│       └── sudo_cmd.rb
+│   └── remcom
 ├── repo-pull
 │   ├── readme.txt
 │   └── repo-pull.rb
+├── sanity
+│   ├── README.txt
+│   └── sanity.rb
 ├── time_by_zones
 │   ├── readme.txt
 │   └── time_by_zones.rb
