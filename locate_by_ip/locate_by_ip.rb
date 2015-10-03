@@ -1,20 +1,37 @@
 #!/usr/bin/env ruby
-# - ruby script to call ipinfo-io and geektool
-###############################################################
+#
+#
+# locate_by_ip.rb part duex
+#
+# simpler code but less geographically accurate.
+# ie : old version knows I'm in a specific town
+#      this version knows I'm in a given state.
+#      seems like a limitation of the api though.
+#      adapt old url to new code ?
+#
+# Verison 2.0
+################################################
 if RUBY_VERSION.to_f < 1.9
   require 'rubygems'
 end
-require 'curb'
-require 'yaml'
+require 'net/http'
+require 'json'
 
+# what is the date/time
 date = Time.now
-puts "Current IP Location Info as of [#{date}]"
-resolver = 'ipinfo.io'
-ip_get = Curl.get(resolver)
-ip_dump = ip_get.body
-ip_yaml = YAML.load(ip_dump)
 
-ip_yaml.each do |key, value|
-  puts "#{key}: #{value}"
+# use this url
+base_url  = 'ip-api.com'
+base_path = '/json/'
+
+# get a dump from teh url
+raw = Net::HTTP.get(base_url, base_path)
+
+# make is parsable
+parsed = JSON.parse(raw)
+
+puts date
+parsed.each do |x,y|
+  puts "#{x}:#{y}"
 end
 
