@@ -7,22 +7,42 @@
 #
 #
 ##################################################################
+if RUBY_VERSION.to_f < 1.9
+  require 'rubygems'
+end
+  require 'optparse'
 
-# How may times should it loop ?
-repeat = ARGV[0]
-if repeat.nil?
+@options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [args]"
+  opts.separator ''
+#  opts.banner = "Arguments:"
+  opts.on('-h', '--help', 'Display Help.') do
+    puts opts
+    exit
+  end
+  opts.on('-r', '--repeat COUNT', 'How many times should the message display ?') do |x|
+    @options[:repeat] = x
+  end
+  opts.on('-f', '--frequency FREQUENCY', 'Pick a number. Higher number mean less errors in the message.') do |x|
+    @options[:randomizer] = x
+  end
+end
+parser.parse!
+
+## How may times should it loop ?
+if @options[:repeat].nil?
   repeat = 20
 else
-  repeat = repeat.to_i
+  repeat = @options[:repeat].to_i
 end
 
 # Pick a random number to see how often you want to introduce typoes.
 # Lower numbers will generate a higher number of errors.
-randomizer = ARGV[1]
-if randomizer.nil?
+if @options[:randomizer].nil?
   randomizer = 200
 else
-  randomizer = randomizer.to_i
+  randomizer = @options[:randomizer].to_i
 end
 
 message = [ 'A','l','l',' ',
