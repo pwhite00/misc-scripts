@@ -48,6 +48,7 @@ else
   randomizer = @options[:randomizer].to_i
 end
 
+# if no custom message was specified fall back to the old standard.
 unless @options.key?(:message)
   message = "All work and no play makes Jack a dull boy.".split(//)
 else
