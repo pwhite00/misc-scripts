@@ -27,6 +27,9 @@ parser = OptionParser.new do |opts|
   opts.on('-f', '--frequency FREQUENCY', 'Pick a number. Higher number mean less errors in the message.') do |x|
     @options[:randomizer] = x
   end
+  opts.on('-m', '--message STRING', 'Define your own message.') do |x|
+    @options[:message] = x
+  end
 end
 parser.parse!
 
@@ -45,17 +48,13 @@ else
   randomizer = @options[:randomizer].to_i
 end
 
-message = [ 'A','l','l',' ',
-'w','o','r','k',' ',
-'a','n','d',' ',
-'n','o',' ',
-'p','l','a','y',' ',
-'m','a','k','e','s',' ',
-'J','a','c','k',' ',
-'a',' ',
-'d','u','l','l',' ',
-'b','o','y','.',' '
-]
+unless @options.key?(:message)
+  message = "All work and no play makes Jack a dull boy.".split(//)
+else
+  if @options[:message].is_a? String
+    message = @options[:message].split(//)
+  end
+end
 
 def even_odd(letter)
   # Decide if a number is even or odd and change case based on it.
@@ -71,7 +70,7 @@ end
 
 def random_char()
   # Find a random letter in the alphabet when triggered.
-  alpha = 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+  alpha = ('a'..'z').to_a
   new_char = alpha[rand(25)]
   # puts new_char
   even_odd(new_char)
