@@ -3,7 +3,6 @@
 # - sanity.rb
 #
 # swap put argv for optparse
-# add in better error checking and a usage
 #
 #
 ##################################################################
