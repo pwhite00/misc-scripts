@@ -2,14 +2,16 @@
 #
 #  - grab those repos and make them update.
 #
+#  - working out better checks for whether to try pulling somthing
+#   -- logic error on selection. also make it more flexible.
 #
-#############################################
+##################################################################
 if RUBY_VERSION.to_f < 1.9
   require 'rubygems'
 end
 require 'optparse'
 
-@version = '1.0'
+@version = '1.1'
 @options = {}
 parser = OptionParser.new do |opts|
   opts.banner = "#{$0}  Version: #{@version}\n  Usage: #{$0} [args]"
@@ -24,24 +26,43 @@ parser = OptionParser.new do |opts|
   opts.on('-v', '--verbose', 'Run in verbose mode') do
    @options[:verbose] = true
   end
+  opts.on('-w', '--work-only', 'pull only work repos') do
+    @options[:work] = true
+  end
 end
 parser.parse!
 
 unless @options.key?(:repo)
+  # does @options[:repo] exist as a key ? if not make it = :all
   @options[:mode] = :all
 end
 
+
+if @options[:verbose]
+# test if :work flag was used and recorded
+  puts "work == #{@options[:work]}"
+end
+
+
 def pull_repo(repo_type, repo)
+  unless @options.key?(:work)
+    # does @options[:work] exist as a key ? if not make it = false
+    @options[:work] = false
+  end
   # go ahead and grab it all
   case repo_type
-  when :svn
-    puts "-- Grabbing: #{repo} via subversion. --"
-    svn_pull = `svn up #{repo}`
-    if @options[:verbose]
-      puts svn_pull
-    else
-      svn_pull
-    end
+    when :svn
+      if @options[:work] = false
+        puts "-- Grabbing: #{repo} via subversion. --"
+        svn_pull = `svn up #{repo}`
+        if @options[:verbose]
+          puts svn_pull
+        else
+          svn_pull
+        end
+      else
+        puts "-- Skipping #{repo} intentionally. --"
+      end
   when :git
     puts "-- Grabbing: #{repo} via git. --"
     git_pull = `cd #{repo} && git pull && cd ../`
