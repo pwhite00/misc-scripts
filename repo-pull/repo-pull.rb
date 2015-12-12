@@ -13,6 +13,7 @@ require 'optparse'
 
 @version = '1.1'
 @options = {}
+@myline = '-------------------------------------'
 parser = OptionParser.new do |opts|
   opts.banner = "#{$0}  Version: #{@version}\n  Usage: #{$0} [args]"
   opts.separator ''
@@ -26,8 +27,11 @@ parser = OptionParser.new do |opts|
   opts.on('-v', '--verbose', 'Run in verbose mode') do
    @options[:verbose] = true
   end
-  opts.on('-w', '--work-only', 'pull only work repos') do
-    @options[:work] = true
+  opts.on('-s', '--only-svn', 'Pull only svn repos') do
+    @options[:nogit] = true
+  end
+  opts.on('-g', '--only-git', 'Pull only git repos') do
+    @options[:nosvn] = true
   end
 end
 parser.parse!
@@ -37,42 +41,56 @@ unless @options.key?(:repo)
   @options[:mode] = :all
 end
 
+unless @options.key?(:nosvn)
+  # does @options[:nosvn] exist as a key ? if not make it = false
+  @options[:nosvn] = false
+end
+
+unless @options.key?(:nogit)
+  # does @options[:nogit] exist as a key ? if not make it = false
+  @options[:nogit] = false
+end
 
 if @options[:verbose]
-# test if :work flag was used and recorded
-  puts "work == #{@options[:work]}"
+# test if :nogit and :nosvn flags were used and recorded
+  puts "nogit == #{@options[:nogit]}"
+  puts "nosvn == #{@options[:nosvn]}"
 end
 
 
 def pull_repo(repo_type, repo)
-  unless @options.key?(:work)
-    # does @options[:work] exist as a key ? if not make it = false
-    @options[:work] = false
-  end
   # go ahead and grab it all
   case repo_type
-    when :svn
-      if @options[:work] = false
+  when :svn
+      unless @options[:nosvn]
         puts "-- Grabbing: #{repo} via subversion. --"
         svn_pull = `svn up #{repo}`
         if @options[:verbose]
+          puts @myline
           puts svn_pull
+          puts
         else
           svn_pull
         end
       else
-        puts "-- Skipping #{repo} intentionally. --"
+        puts "- Skipping #{repo} due to no svn option. -"
       end
   when :git
-    puts "-- Grabbing: #{repo} via git. --"
-    git_pull = `cd #{repo} && git pull && cd ../`
-    if @options[:verbose]
-      puts git_pull
-    else
-      git_pull
-    end
+      unless @options[:nogit]
+        puts "-- Grabbing: #{repo} via git. --"
+        git_pull = `cd #{repo} && git pull && cd ../`
+        if @options[:verbose]
+          puts @myline
+          puts git_pull
+          puts
+        else
+          git_pull
+        end
+      else
+        puts "- Skipping #{repo} due to no git option. -"
+      end
   when :norepo
-    puts "-- Ignoring: #{repo} is not a version controlled repo. --"
+    puts "- Ignoring: #{repo} is not a version controlled repo. -"
   end
 end
 
