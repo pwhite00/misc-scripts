@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-
-
-# get facts
-# macaddress: facter
-# ip:         facter
-# disk usage on local disks: not facter
-# vpn in use: not facter
-#
