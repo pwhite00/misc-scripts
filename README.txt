@@ -3,6 +3,9 @@
 As the name implies it's a place for miscellaneous scripts
 
 ├── README.txt
+├── geeklets
+│   ├── mini-sysstat.rb
+│   └── vpn-test.rb
 ├── locate_by_ip
 │   ├── locate_by_ip.rb
 │   └── readme.txt
