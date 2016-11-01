@@ -14,7 +14,7 @@ require 'sqlite3'
 
 # create an alias in .bashrc to display a current count
 
-@options = { :version => 1.0, :import => nil, :note => nil, :mode => :status, :verbose => false, }
+@options = { :version => 1.0, :import => nil, :note => nil, :mode => :status, :verbose => false, :db => '.1kc.db' }
 @modes = ['new', 'status', 'append']
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} [args]"
@@ -42,18 +42,31 @@ parser.parse!
 def getStatus(isVerbose)
   # How many cuts are left.
   printf("getStatus\n")
+  # read current count and report
+  # if verbose report more
   exit
 end
 
 def setupDb(importDb, isVerbose)
   # importDB is @options[:import]
   printf("setup\n")
+  # check if the file exists
+  file_is_there = File.exists?(#add a db file to check)
+  
+  
+  # if verbose report more
+  # check if import is on and if import file exists ?
+  # if not importing create blank db
+  # if importing import
   exit
 end
 
 def addEntry(addMsg, isVerbose)
   # addMsg is @options[:note]
   printf("addEntry\n")
+  # check for message
+  # if verbose report more
+  # add tally with message if included.
   getStatus
   exit
 end
