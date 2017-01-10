@@ -18,7 +18,7 @@ end
 @version     = "v1.0"
 
 # Manual flag for dst . Next version lets make this dynamic.
-@dst_on = true
+@dst_on = false
 
 # set mode to use ARGV
 mode = ARGV[0]
