@@ -46,30 +46,57 @@ end
 
 # define Timezone date and whether city observes DST
 @city = {
-    :cdg_offset => 1,
-    :cdg_dst    => true,
-    :lhr_offset => 0,
-    :lhr_dst    => true,
-    :iad_offset => -5,
-    :iad_dst    => true,
-    :ord_offset => -6,
-    :ord_dst    => true,
-    :den_offset => -7,
-    :den_dst    => true,
-    :sfo_offset => -8,
-    :sfo_dst    => true,
-    :hnl_offset => -10,
-    :hnl_dst    => false,
-    :ist_offset => 5,
-    :ist_dst    => false,
-    :sin_offset => 8,
-    :sin_dst    => false,
-    :nrt_offset => 9,
-    :nrt_dst    => false,
+    :cdg_offset      => 1,
+    :cdg_dst         => true,
+    :cdg_variance    => 0,
+    :lhr_offset      => 0,
+    :lhr_dst         => true,
+    :lhr_variance    => 0,
+    :iad_offset      => -5,
+    :iad_dst         => true,
+    :iad_variance    => 0,
+    :ord_offset      => -6,
+    :ord_dst         => true,
+    :ord_variance    => 0,
+    :den_offset      => -7,
+    :den_dst         => true,
+    :den_variance    => 0,
+    :sfo_offset      => -8,
+    :sfo_dst         => true,
+    :sfo_variance    => 0,
+    :hnl_offset      => -10,
+    :hnl_dst         => false,
+    :hnl_variance    => 0,
+    :hyd_offset      => 5,
+    :hyd_dst         => false,
+    :hyd_variance    => 30,
+    :sin_offset      => 8,
+    :sin_dst         => false,
+    :sin_variance    => 0,
+    :nrt_offset      => 9,
+    :nrt_dst         => false,
+    :nrt_variance    => 0,
 }
 
-def process_time(offset, dst, site)
+def process_time(offset, dst, site, variance)
 # Define how we process time.
+
+  # determine @min value as it relates to variance.
+  if variance == 0
+    minutes = @min.to_i
+  else
+    minutes_raw = @min.to_i + variance.to_i
+    if minutes_raw >= 60
+      minutes = minutes_raw - 60
+    else
+      minutes = minutes_raw
+    end
+  end
+
+  # cosmetic 0 padding for minutes 0-9
+  if minutes < 10
+    minutes = "0#{minutes}"
+  end
 
   # If DST flag is on determine if city uses dst and calculate hour.
   # Otherwise just determine Hour based on timezone offset.
@@ -97,40 +124,40 @@ def process_time(offset, dst, site)
   end
 
   # time output string
-  "#{site}: #{@newnum}:#{@min}"
+  "#{site}: #{@newnum}:#{minutes}"
 
 end
 
 # Define the report called by "all" mode. Displays all configured timezones.
 def full_report()
   # display all zones
-  print "#{process_time(@city[:cdg_offset], @city[:cdg_dst], "CDG")}     "
-  print "#{process_time(@city[:lhr_offset], @city[:lhr_dst], "LHR")}     "
-  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD")}     "
-  print "#{process_time(@city[:ord_offset], @city[:ord_dst], "ORD")}     "
-  print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN")}     "
-  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO")}     "
-  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL")}     "
-  print "#{process_time(@city[:ist_offset], @city[:ist_dst], "HYD")}     "
-  print "#{process_time(@city[:sin_offset], @city[:sin_dst], "SIN")}     "
-  print "#{process_time(@city[:nrt_offset], @city[:nrt_dst], "NRT")}     "
+  print "#{process_time(@city[:cdg_offset], @city[:cdg_dst], "CDG", @city[:cdg_variance])}     "
+  print "#{process_time(@city[:lhr_offset], @city[:lhr_dst], "LHR", @city[:lhr_variance])}     "
+  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
+  print "#{process_time(@city[:ord_offset], @city[:ord_dst], "ORD", @city[:ord_variance])}     "
+  print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN", @city[:den_variance])}     "
+  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     "
+  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL", @city[:hnl_variance])}     "
+  print "#{process_time(@city[:hyd_offset], @city[:hyd_dst], "HYD", @city[:hyd_variance])}     "
+  print "#{process_time(@city[:sin_offset], @city[:sin_dst], "SIN", @city[:sin_variance])}     "
+  print "#{process_time(@city[:nrt_offset], @city[:nrt_dst], "NRT", @city[:nrt_variance])}     "
 end
 
 # Define the report called by "us" mode. Displays all configured US timezones.
 def us_report()
   # display all US
-  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD")}     "
-  print "#{process_time(@city[:ord_offset], @city[:ord_dst], "ORD")}     "
-  print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN")}     "
-  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO")}     "
-  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL")}     "
+  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
+  print "#{process_time(@city[:ord_offset], @city[:ord_dst], "ORD", @city[:ord_variance])}     "
+  print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN", @city[:den_variance])}     "
+  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     "
+  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL", @city[:hnl_variance])}     "
 end
 
 # Define the default report. Displays IAD and SFO times.
 def default_report()
   # display ET and PT only
-  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD")}     "
-  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO")}     "
+  print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
+  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     "
 end
 
 # Case statement to define the mode to run in.
