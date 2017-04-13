@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # geektool ruby script that displays time by time zones
-# which allows me to not have to think about what time it is in other offices
+# which allows me to not have to think about what time it is in other locations
 #
 ###############################################################################
 
@@ -15,7 +15,7 @@ end
 # Define base time variables from chopped up Time and other basic variables.
 @hour_raw    = time_dump.split(':')[0].to_i
 @min         = time_dump.split(':')[1]
-@version     = "v1.0"
+@version     = "v1.1"
 
 # Manual flag for dst . Next version lets make this dynamic.
 @dst_on = true
