@@ -18,7 +18,7 @@ end
 @version     = "v1.0"
 
 # Manual flag for dst . Next version lets make this dynamic.
-@dst_on = false
+@dst_on = true
 
 # set mode to use ARGV
 mode = ARGV[0]
@@ -60,6 +60,8 @@ end
     :sfo_dst    => true,
     :hnl_offset => -10,
     :hnl_dst    => false,
+    :ist_offset => 5,
+    :ist_dst    => false,
     :sin_offset => 8,
     :sin_dst    => false,
     :nrt_offset => 9,
@@ -109,6 +111,7 @@ def full_report()
   print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN")}     "
   print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO")}     "
   print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL")}     "
+  print "#{process_time(@city[:ist_offset], @city[:ist_dst], "HYD")}     "
   print "#{process_time(@city[:sin_offset], @city[:sin_dst], "SIN")}     "
   print "#{process_time(@city[:nrt_offset], @city[:nrt_dst], "NRT")}     "
 end
