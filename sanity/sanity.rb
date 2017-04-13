@@ -49,7 +49,7 @@ end
 
 # if no custom message was specified fall back to the old standard.
 unless @options.key?(:message)
-  message = "All work and no play makes Jack a dull boy.".split(//)
+  message = "All work and no play makes Jack a dull boy. ".split(//)
 else
   if @options[:message].is_a? String
     message = @options[:message].split(//)
