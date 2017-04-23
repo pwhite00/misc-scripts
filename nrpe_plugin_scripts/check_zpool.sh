@@ -35,8 +35,8 @@ exit $exit_code
 function check_pool_health() {
 # is the pool healthy ? tell me and exit accordingly.
 CHECK_ZPOOL=`${ZPOOL_CMD} status $POOL | egrep 'state|errors' | grep -v scan` >/dev/null 2>&1
-HEALTH=$CHECK_ZPOOL | grep state | awk {'print $2'}
-ERRORS=$CHECK_ZPOOL | grep errors | cut -d ':' -f 2
+HEALTH=echo $CHECK_ZPOOL | grep state | awk {'print $2'}
+ERRORS=echo $CHECK_ZPOOL | grep errors | cut -d ':' -f 2
 
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
@@ -100,6 +100,9 @@ if [[ -z $MODE ]]; then
   usage
 fi
 
+
+if [[ `whoami` != 'root' ]]; then
+  echo "You must be this root to
 # process options and run checks
 if [[ $MODE == 'health' ]]; then
   check_pool_health
