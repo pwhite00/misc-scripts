@@ -108,7 +108,7 @@ fi
 
 
 if [[ `whoami` != 'root' ]]; then
-  echo "You must be this root to
+  echo "You must be this root to ride."
 # process options and run checks
 if [[ $MODE == 'health' ]]; then
   check_pool_health
