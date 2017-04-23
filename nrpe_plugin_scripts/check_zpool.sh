@@ -109,6 +109,10 @@ fi
 
 if [[ `whoami` != 'root' ]]; then
   echo "You must be this root to ride."
+  exit_code=3
+  usage
+fi
+
 # process options and run checks
 if [[ $MODE == 'health' ]]; then
   check_pool_health
