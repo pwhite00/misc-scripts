@@ -38,6 +38,12 @@ CHECK_ZPOOL=`${ZPOOL_CMD} status $POOL | egrep 'state|errors' | grep -v scan` >/
 HEALTH=echo $CHECK_ZPOOL | grep state | awk {'print $2'}
 ERRORS=echo $CHECK_ZPOOL | grep errors | cut -d ':' -f 2
 
+## debug ##
+echo 'start debug'
+echo $HEALTH
+echo $ERRORS
+echo 'end debug'
+
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
     if [[ $ERRORS == 'No known data errors' ]]; then
