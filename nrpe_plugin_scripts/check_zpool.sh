@@ -7,7 +7,7 @@
 #
 ###############################################################################
 # Variable Settings:
-ZPOOL_CMD=/sbin/zpool
+#ZPOOL_CMD=/sbin/zpool
 
 #Mode: scrub
 SCRUB_FREQUENCY=10    # define the number of days that pool scrubs are expected to run by (10 days is default).
@@ -34,7 +34,7 @@ exit $exit_code
 
 function check_pool_health() {
 # is the pool healthy ? tell me and exit accordingly.
-CHECK_ZPOOL=`${ZPOOL_CMD} status $POOL | egrep 'state|errors' | grep -v scan` >/dev/null 2>&1
+CHECK_ZPOOL=`/sbin/zpool status $POOL | egrep 'state|errors' | grep -v scan` >/dev/null 2>&1
 HEALTH=echo $CHECK_ZPOOL | grep state | awk {'print $2'}
 ERRORS=echo $CHECK_ZPOOL | grep errors | cut -d ':' -f 2
 
@@ -66,7 +66,7 @@ function check_scrub_status() {
   # what is the scrub status. Has a scrub happened in X number of days ?
   # todo: Write this part. (ideas avail;able at https://calomel.org/zfs_health_check_script.html )
   SCRUB_EXPIRE=`expr ${SCRUB_FREQUENCY} \* 3600`
-  SCRUB_STATE=`$ZPOOL_CMD status $POOL | grep scan`
+  SCRUB_STATE=`/sbin/zpool  status $POOL | grep scan`
   if [[ `$SCRUB_STATE | cut -d ':' -f 2` == 'none requested' ]]; then
     echo "Zpool Scrub Check: [No scrub has been requested. Please request one]."
     exit 1
@@ -78,7 +78,7 @@ function check_scrub_status() {
     exit 0
   fi
 
-  SCRUB_RAW_DATE=`$ZPOOL_CMD status $POOL grep scrub | awk '{print $11" "$12" " $13" " $14" "$15}'`
+  SCRUB_RAW_DATE=`/sbin/zpool  status $POOL grep scrub | awk '{print $11" "$12" " $13" " $14" "$15}'`
   SCRUB_DATE=`date -d SCRUB_RAW_DATE +%s`
   CURRENT_DATE=`date -d +%s`
   SCRUB_ELASPE=`expr $CURRENT_DATE - $SCRUB_STATE`
