@@ -48,17 +48,17 @@ echo 'end debug'
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
     if [[ $ERRORS == 'No known data errors' ]]; then
-      echo "Zpool Health Check: Pool: [$POOL] Health: [$HEALTH] Errors: [$ERRORS]"
+      echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
       exit 0
     else
-      echo "Zpool Health Check: Pool: [$POOL] Health: [$HEALTH] Errors: [$ERRORS]"
+      echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
       exit 1
     fi
   elif [[ $HEALTH == 'DEGRADED' ]]; then
-    echo "Zpool Health Check: Pool: [$POOL] Health: [$HEALTH] Errors: [$ERRORS]"
+    echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
     exit 1
   else
-    echo "Zpool Health Check: Pool: [$POOL] Health: [$HEALTH] Errors: [$ERRORS]"
+    echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
     exit 2
   fi
 }
