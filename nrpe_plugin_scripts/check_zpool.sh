@@ -47,7 +47,7 @@ echo 'end debug'
 
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
-    if [[ $ERRORS == 'No known data errors' ]]; then
+    if [[ `echo $ERRORS | awk {'print $1" "$1" "$3" "$4'}` == 'No known data errors' ]]; then
       echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
       exit 0
     else
