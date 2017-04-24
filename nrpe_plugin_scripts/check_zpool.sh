@@ -80,8 +80,8 @@ function check_scrub_status() {
   fi
 
   SCRUB_RAW_DATE=`/sbin/zpool  status $POOL | grep scrub | awk '{print $11" "$12" " $13" " $14" "$15}'`
-  SCRUB_DATE=`date -d SCRUB_RAW_DATE +%s`
-  CURRENT_DATE=`date -d +%s`
+  SCRUB_DATE=`date -d $SCRUB_RAW_DATE +%s`
+  CURRENT_DATE=`date +%s`
   SCRUB_ELASPE=`expr $CURRENT_DATE - $SCRUB_STATE`
 
   if [[ $SCRUB_ELASPE -le $SCRUB_EXPIRE ]]; then
