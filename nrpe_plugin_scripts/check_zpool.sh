@@ -37,7 +37,7 @@ function check_pool_health() {
 CHECK_ZPOOL=`/sbin/zpool status $POOL | egrep 'state|errors' | grep -v scan` >/dev/null 2>&1
 HEALTH=`echo $CHECK_ZPOOL | grep state | awk {'print $2'}`
 #ERRORS=`echo $CHECK_ZPOOL | grep errors | cut -d ':' -f 2`
-ERRORS=`echo $CHECK_ZPOOL | awk {'print $3" "$4" "$5" "}'`
+ERRORS=`echo $CHECK_ZPOOL | awk {'print $3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "}'`
 
 ## debug ##
 echo 'start debug'
