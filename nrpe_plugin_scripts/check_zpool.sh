@@ -36,7 +36,6 @@ function check_pool_health() {
 # is the pool healthy ? tell me and exit accordingly.
 CHECK_ZPOOL=`/sbin/zpool status $POOL | egrep 'state|errors' | grep -v scan` >/dev/null 2>&1
 HEALTH=`echo $CHECK_ZPOOL | grep state | awk {'print $2'}`
-#ERRORS=`echo $CHECK_ZPOOL | grep errors | cut -d ':' -f 2`
 ERRORS=`echo $CHECK_ZPOOL | awk {'print $3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "}'`
 
 ## debug ##
@@ -47,12 +46,13 @@ echo 'end debug'
 
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
-    if [[ $ERRORS == 'No known data errors' ]]; then
+    echo $ERRORS | grep -v 'No known data errors' >/dev/null 2>&1
+    if [[ $? == 0 ]]; then
       echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
       exit 0
     else
       echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
-      exit 0
+      exit 1
     fi
   elif [[ $HEALTH == 'DEGRADED' ]]; then
     echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
