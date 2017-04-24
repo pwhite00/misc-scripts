@@ -46,7 +46,7 @@ echo 'end debug'
 
 # process logic:
   if [[ $HEALTH == 'ONLINE' ]]; then
-    echo $ERRORS | grep -v 'errors: No known data errors' >/dev/null 2>&1
+    echo $ERRORS | grep  'errors: No known data errors' >/dev/null 2>&1
     if [[ $? == 0 ]]; then
       echo "Zpool Health Check: Pool=$POOL Health=$HEALTH Errors=$ERRORS"
       exit 0
