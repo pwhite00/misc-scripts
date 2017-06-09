@@ -9,7 +9,8 @@
 #      seems like a limitation of the api though.
 #      adapt old url to new code ?
 #
-# Verison 2.0
+# Verison 2.1
+# changing away from ip-api.com as it has a very low free threshold. moving to freegeoip.net 15k per hour free.
 ################################################
 if RUBY_VERSION.to_f < 1.9
   require 'rubygems'
@@ -21,7 +22,7 @@ require 'json'
 date = Time.now
 
 # use this url
-base_url  = 'ip-api.com'
+base_url  = 'freegeoip.net'
 base_path = '/json/'
 
 # get a dump from teh url
