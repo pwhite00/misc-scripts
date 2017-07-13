@@ -67,7 +67,7 @@ end
     :hnl_offset      => -10,
     :hnl_dst         => false,
     :hnl_variance    => 0,
-    :hyd_offset      => 5,
+    :hyd_offset      => 6, # sometimes 5 sometimes 6 need to refactor to allow more flexibility in dst changes.
     :hyd_dst         => false,
     :hyd_variance    => 30,
     :sin_offset      => 8,
