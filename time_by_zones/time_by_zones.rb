@@ -140,7 +140,7 @@ def full_report()
   print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL", @city[:hnl_variance])}     "
   print "#{process_time(@city[:hyd_offset], @city[:hyd_dst], "HYD", @city[:hyd_variance])}     "
   print "#{process_time(@city[:sin_offset], @city[:sin_dst], "SIN", @city[:sin_variance])}     "
-  print "#{process_time(@city[:nrt_offset], @city[:nrt_dst], "NRT", @city[:nrt_variance])}     "
+  print "#{process_time(@city[:nrt_offset], @city[:nrt_dst], "NRT", @city[:nrt_variance])}     \n"
 end
 
 # Define the report called by "us" mode. Displays all configured US timezones.
@@ -150,14 +150,14 @@ def us_report()
   print "#{process_time(@city[:ord_offset], @city[:ord_dst], "ORD", @city[:ord_variance])}     "
   print "#{process_time(@city[:den_offset], @city[:den_dst], "DEN", @city[:den_variance])}     "
   print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     "
-  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL", @city[:hnl_variance])}     "
+  print "#{process_time(@city[:hnl_offset], @city[:hnl_dst], "HNL", @city[:hnl_variance])}     \n"
 end
 
 # Define the default report. Displays IAD and SFO times.
 def default_report()
   # display ET and PT only
   print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
-  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     "
+  print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     \n"
 end
 
 # Case statement to define the mode to run in.
