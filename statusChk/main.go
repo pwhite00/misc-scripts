@@ -69,8 +69,8 @@ func main() {
     		Results["cpuProcUsage"] = cpuProcessChk(pidValue)
 		} else {
 			// run general memory and cou tests.
-			Results["memSysUsage"] = memChk()
-			Results["cpuSysUsage"] = cpuChk()
+			Results["memSysUsage"] = memSystemChk()
+			Results["cpuSysUsage"] = cpuSystemChk()
 		}
 		Results["systemLoad"] = loadChk()
 		if partitionValue != "empty" {
@@ -86,10 +86,10 @@ func main() {
 		// run memchk
 		if pidValue != 0 {
 			// run memory check on pid.
-			memProcessChk(pidValue)
+			Results["memProcUsage"] = memProcessChk(pidValue)
 		} else {
 			// run memory check on everything.
-			memChk()
+			Results["memSysUsage"] = memSystemChk()
 		}
 	}
 
@@ -97,26 +97,26 @@ func main() {
 		// run cpu check
 		if pidValue != 0 {
 			// run cpu check on PID
-			cpuProcessChk(pidValue)
+			Results["cpuProcUsage"] = cpuProcessChk(pidValue)
 		} else {
 			// run cpu checks on everything.
-			cpuChk()
+			Results["cpuSysUsage"] = cpuSystemChk()
 		}
 	}
 
 	if loadChkOn {
 		// run load check
-		loadChk()
+		Results["systemLoad"] = systemLoadChk()
 	}
 
 	if diskSpaceChkOk {
 		// run disk space check
 		if partitionValue != "empty" {
 			// run check on only specified disk partition.
-			diskPartitionChk(partitionValue)
+			results["diskPartChk"] = diskPartitionChk(partitionValue)
 		} else {
 			// run disk partition checks on all mounted partition.
-			diskSpaceChk()
+			results["diskPartsChk"] = diskSpaceChk()
 		}
 	}
 
