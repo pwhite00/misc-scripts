@@ -5,6 +5,6 @@ import (
 )
 
 func systemLoadChk() []int {
-	var []int loadArray
+	var loadArray [...]int
 	return loadArray
 }

@@ -5,6 +5,11 @@ import (
 )
 
 func diskPartitionChk(mount) []int {
-	var []int diskPartArray
-	return diskPartitionChk()
+	var diskPartArray [...]int
+	return diskPartArray
+}
+
+func diskSpaceChk() []int {
+	var  diskAllPartsArray [...]int
+	return diskAllPartsArray
 }

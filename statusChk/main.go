@@ -22,6 +22,7 @@ import (
 )
 
 var Results = make(map[string]interface{})
+var myVersion = "Version: 0.1.1"
 
 
 func main() {
@@ -32,6 +33,7 @@ func main() {
 	diskSpaceFlag:= flag.Bool("d", "false", "Profile current system Disk space.[OPTIONAL: Use --partition to specify a disk partition.]")
 	pidFlag := flag.Int("pid", 0, "Defne a PID to run checks against." )
 	partitionFlag := flag.String("mount", "empty", "Define a disk mount partition to run checks against.")
+	versionFlag := flag.Bool("version", false, myVersion)
 	flag.Parse()
 
 	// discover OS to figure how to run checks. or abort if not supported OS.
@@ -72,13 +74,13 @@ func main() {
 			Results["memSysUsage"] = memSystemChk()
 			Results["cpuSysUsage"] = cpuSystemChk()
 		}
-		Results["systemLoad"] = loadChk()
+		Results["systemLoad"] = systemLoadChk()
 		if partitionValue != "empty" {
 			// run specificed partition check.
-			results["diskPartChk"] = diskPartitionChk(partitionValue)
+			Results["diskPartChk"] = diskPartitionChk(partitionValue)
 		} else {
 			// run genersl disk paritition check.
-			 results["diskPartsChk"] = diskSpaceChk()
+			 Results["diskPartsChk"] = diskSpaceChk()
 		}
 	}
 
@@ -113,13 +115,13 @@ func main() {
 		// run disk space check
 		if partitionValue != "empty" {
 			// run check on only specified disk partition.
-			results["diskPartChk"] = diskPartitionChk(partitionValue)
+			Results["diskPartChk"] = diskPartitionChk(partitionValue)
 		} else {
 			// run disk partition checks on all mounted partition.
-			results["diskPartsChk"] = diskSpaceChk()
+			Results["diskPartsChk"] = diskSpaceChk()
 		}
 	}
 
-	// publich results.
+	// publich Results.
   fmt.Printf("\n")
 }
