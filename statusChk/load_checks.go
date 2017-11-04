@@ -1,10 +1,9 @@
 package main
 
-import (
+import ()
 
-)
+func systemLoadChk() (int, int, int) {
+	var load1, load2, load3 int
 
-func systemLoadChk() []int {
-	var loadArray [...]int
-	return loadArray
+	return load1, load2, load3
 }

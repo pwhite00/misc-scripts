@@ -1,8 +1,6 @@
 package main
 
-import (
-
-)
+import ()
 
 func diskPartitionChk(mount) []int {
 	var diskPartArray [...]int
@@ -10,6 +8,6 @@ func diskPartitionChk(mount) []int {
 }
 
 func diskSpaceChk() []int {
-	var  diskAllPartsArray [...]int
+	var diskAllPartsArray [...]int
 	return diskAllPartsArray
 }

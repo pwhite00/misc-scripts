@@ -1,8 +1,6 @@
 package main
 
-import (
-
-)
+import ()
 
 func cpuProcessChk(pid int) string {
 	var cpuProcUsage string
