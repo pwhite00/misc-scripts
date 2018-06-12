@@ -88,7 +88,7 @@ func main() {
 		fmt.Println(string(returnedData))
 	}
 
-	fmt.Printf("Time: %v\n", time.Now())
+	fmt.Printf("Time       : %v\n", time.Now().Format("15:04:05"))
 	fmt.Printf("IP         : %s\n", dataMap["ip"])
 	fmt.Printf("CountryCode: %s\n", dataMap["country_code"])
 	fmt.Printf("CountryName: %s\n", dataMap["country_name"])
