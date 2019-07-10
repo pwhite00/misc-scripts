@@ -9,3 +9,20 @@ forget and this alows me to turn it on.
 │   └── locate_by_ip.rb
 ├── locate_by_ip.rb
 └── readme.txt
+
+
+
+to build:
+
+mac osx
+$ env GOOS=darwin GOARCH=amd64 go build -o locate_by_ip.mac
+
+linux x64
+$ env GOOS=linux GOARCH=amd64 go build -o locate_by_ip.linux
+
+linux arm
+$ env GOOS=linux GOARCH=arm go build -o locate_by_ip.arm7
+
+
+freebsd x64
+env GOOS=freebsd GOARCH=amd64 go build -o locate_by_ip.freebsd
