@@ -66,7 +66,8 @@ func parseJSONPayload(rawData []byte) (map[string]interface{}, error) {
 func main() {
 	debugOn := false
 
-	urlBase := "https://freegeoip.app"
+	//urlBase := "https://freegeoip.app"
+	urlBase := "http://ip-api.com"
 	urlPath := "/json/"
 	url := urlBase + urlPath
 
@@ -89,15 +90,18 @@ func main() {
 	}
 
 	fmt.Printf("Time       : %v\n", time.Now().Format("15:04:05"))
-	fmt.Printf("IP         : %s\n", dataMap["ip"])
-	fmt.Printf("CountryCode: %s\n", dataMap["country_code"])
-	fmt.Printf("CountryName: %s\n", dataMap["country_name"])
+	fmt.Printf("Status     : %s\n", dataMap["status"])
+	fmt.Printf("IP         : %s\n", dataMap["query"])
+	fmt.Printf("CountryCode: %s\n", dataMap["countryCode"])
+	fmt.Printf("CountryName: %s\n", dataMap["country"])
 	//fmt.Printf("RegionCode : %s\n", dataMap["region_code"])
-	fmt.Printf("RegionName : %s\n", dataMap["region_name"])
+	fmt.Printf("RegionName : %s\n", dataMap["regionName"])
 	fmt.Printf("City       : %s\n", dataMap["city"])
-	fmt.Printf("ZipCode    : %s\n", dataMap["zip_code"])
-	fmt.Printf("timeZone   : %s\n", dataMap["time_zone"])
-	fmt.Printf("GeoLoc     : %f, %f\n", dataMap["latitude"], dataMap["longitude"])
+	fmt.Printf("ZipCode    : %s\n", dataMap["zip"])
+	fmt.Printf("timeZone   : %s\n", dataMap["timezone"])
+	fmt.Printf("org        : %s\n", dataMap["org"])
+	fmt.Printf("isp        : %s\n", dataMap["isp"])
+	fmt.Printf("GeoLoc     : %f, %f\n", dataMap["lat"], dataMap["lon"])
 	//fmt.Printf("MetroCode  : %f\n", dataMap["metro_code"])
 
 }
