@@ -46,6 +46,8 @@ end
 
 # define Timezone date and whether city observes DST
 @city = {
+    :utc_offset      => 0,
+    :utc_dst         => false,
     :cdg_offset      => 1,
     :cdg_dst         => false,
     :cdg_variance    => 0,
@@ -67,8 +69,8 @@ end
     :hnl_offset      => -10,
     :hnl_dst         => false,
     :hnl_variance    => 0,
-    :hyd_offset      => 5, # sometimes 5 sometimes 6 need to refactor to allow more flexibility in dst changes.
-    :hyd_dst         => true,
+    :hyd_offset      => 6, # sometimes 5 sometimes 6 need to refactor to allow more flexibility in dst changes.
+    :hyd_dst         => false,
     :hyd_variance    => 30,
     :sin_offset      => 8,
     :sin_dst         => false,
@@ -131,6 +133,7 @@ end
 # Define the report called by "all" mode. Displays all configured timezones.
 def full_report()
   # display all zones
+  print "#{process_time(@city[:utc_offset], @city[:utc_dst], "UTC", @city[:utc_variance])}     "
   print "#{process_time(@city[:cdg_offset], @city[:cdg_dst], "CDG", @city[:cdg_variance])}     "
   print "#{process_time(@city[:lhr_offset], @city[:lhr_dst], "LHR", @city[:lhr_variance])}     "
   print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
@@ -156,6 +159,7 @@ end
 # Define the default report. Displays IAD and SFO times.
 def default_report()
   # display ET and PT only
+  print "#{process_time(@city[:utc_offset], @city[:utc_dst], "UTC", @city[:utc_variance])}     "
   print "#{process_time(@city[:iad_offset], @city[:iad_dst], "IAD", @city[:iad_variance])}     "
   print "#{process_time(@city[:sfo_offset], @city[:sfo_dst], "SFO", @city[:sfo_variance])}     \n"
 end
