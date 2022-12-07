@@ -6,11 +6,14 @@
 ###############################################################################
 
 # Check ruby version because 1.8.7 uses a different Time.now.utc format.
-if RUBY_VERSION == '1.8.7'
-  time_dump   = Time.now.utc.to_s.split(' ')[3]
-else
-  time_dump   = Time.now.utc.to_s.split(' ')[1]
-end
+#if RUBY_VERSION == '1.8.7'
+#  time_dump   = Time.now.utc.to_s.split(' ')[3]
+#else
+#  time_dump   = Time.now.utc.to_s.split(' ')[1]
+#end
+
+
+time_dump   = Time.now.utc.to_s.split(' ')[1]
 
 # Define base time variables from chopped up Time and other basic variables.
 @hour_raw    = time_dump.split(':')[0].to_i
