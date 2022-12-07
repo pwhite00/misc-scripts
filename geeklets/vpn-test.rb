@@ -5,9 +5,9 @@
 #
 #
 ########################################################################################################################
-if RUBY_VERSION.to_f < 1.9
-  require 'rubygems'
-end
+#if RUBY_VERSION.to_f < 1.9
+#  require 'rubygems'
+#end
 
 require 'facter'
 require 'net/http'
